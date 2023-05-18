@@ -1,0 +1,34 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define BLOCK_SIZE 8192
+#define POINTER_SIZE 4 
+#define DIRECT_BLOCKS 12
+#define POINTERS_PER_BLOCK (BLOCK_SIZE / POINTER_SIZE)
+
+typedef struct {
+    int direct[DIRECT_BLOCKS];
+    int singleIndirect;
+    int doubleIndirect;
+    int tripleIndirect;
+} Inode;
+
+int main() {
+    int maxFileSize = 0;
+    int availableBlocks = 0;
+
+    availableBlocks = DIRECT_BLOCKS;
+    availableBlocks += POINTERS_PER_BLOCK;
+    availableBlocks += POINTERS_PER_BLOCK * POINTERS_PER_BLOCK;
+    availableBlocks += POINTERS_PER_BLOCK * POINTERS_PER_BLOCK * POINTERS_PER_BLOCK;
+
+    maxFileSize = DIRECT_BLOCKS * BLOCK_SIZE;  
+    maxFileSize += POINTERS_PER_BLOCK * BLOCK_SIZE;
+    maxFileSize += POINTERS_PER_BLOCK * POINTERS_PER_BLOCK * BLOCK_SIZE;
+    maxFileSize += POINTERS_PER_BLOCK * POINTERS_PER_BLOCK * POINTERS_PER_BLOCK * BLOCK_SIZE;
+
+    printf("Maximum file size: %d bytes\n", maxFileSize);
+    printf("Available blocks: %d\n", availableBlocks);
+
+    return 0;
+}
